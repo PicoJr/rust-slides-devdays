@@ -87,7 +87,7 @@
                     </ul>
                 </section>
                 <section>
-                    <h3>Rust unique features</h3>
+                    <h3>Rust unique concepts</h3>
                     <ul>
                         <li>
                             <font class="rust-accent"><b>Ownership & borrowing</b></font> (who owns/shares the data)
@@ -96,18 +96,52 @@
                             <font class="rust-accent"><b>Lifetime</b></font> (how long the data lives)
                         </li>
                         <li>
-                            Enforced by the compiler (compile time)
+                            Checked by the compiler (compile time)
                         </li>
                         <li>
-                            ... and many more
+                            ...
                         </li>
                     </ul>
                 </section>
                 <section>
                     <section>
-                        <h3>Preventing dangling pointer</h3>
+                        <h4>Ownership & Borrowing</h4>
+                        <pre class="stretch"><code data-trim class="rust">
+                        struct Book;
+
+                        fn read_book(book: &Book) {
+                            // gain non mutable access to `book`
+                            // and give it back (borrow it)
+                        }
+                        
+                        fn sign_book(book: &mut Book) {
+                            // gain exclusive mutable access to `book`
+                            // and give it back (borrow it)
+                        }
+                        
+                        fn destroy_book(book: Book) {
+                            // become the new owner of `book` (own it)
+                        } // here book is destroyed
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Lifetimes, behind the scene</h4>
+                        <pre><code data-trim class="rust">
+                        fn main() {
+                            let dangling;                // --------+- 'a
+                            {                            //         |
+                                let local = 42;          // -+- 'b  |
+                                dangling = &local;       //  |      |
+                            }                            // -+      |
+                            println!("{}", *dangling);   //         |
+                        }                                // --------+
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h4>Example: Preventing dangling pointer</h4>
                         <pre><code data-trim class="rust" data-line-numbers="1-9|3|5|6|4-7|8">
-                        // neovim + rust-analyzer
                         fn main() {
                             let dangling;
                             {
@@ -133,7 +167,6 @@
                     <section>
                         <h3>What does the compiler say?</h3>
                         <pre><code data-trim class="rust">
-                        // neovim + rust-analyzer
                         fn main() {
                             let dangling;
                             {
@@ -149,38 +182,80 @@
                     </section>
                     <section>
                         <h3>What does your IDE say?</h3>
-                        <p><img data-src="res/dangling_pointer_rust_analyzer_1.png" height="100%"></p>
-                    </section>
-                    <section>
-                        <h3>What does your IDE say?</h3>
-                        <p><img data-src="res/dangling_pointer_rust_analyzer_2.png" height="100%"></p>
-                    </section>
-                    <section>
-                        <h3>What does your IDE say?</h3>
-                        <p><img data-src="res/dangling_pointer_rust_analyzer_3.png" height="100%"></p>
+                        <div class="r-stack">
+                        <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_1.png" width="100%"></p>
+                        <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_2.png" width="100%"></p>
+                        <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_3.png" width="100%"></p>
+                        </div>
                     </section>
                 </section>
                 <section>
-                    <h3>Demo cargo</h3>
-                      <div id="demo"></div>
-                      <script src="plugin/asciinema/asciinema-player.min.js"></script>
-                      <script>
-                          AsciinemaPlayer.create('res/redacted_demo_rayon.cast', document.getElementById('demo'), {
-                              speed: 2,
-                              idleTimeLimot: 1,
-                              markers: [
-                                [5.0,   "cargo new"],  // time in seconds + label
-                                [12.0,   "cargo add"],
-                                [20.0,   "rayon installed"],
-                                [43.0,   "cargo build"],
-                                [38.0,   "rayon"],
-                                [48.0,   "cargo run"],
-                              ]
-                          });
-                      </script>
+                    <section>
+                        <h3>Rayon</h3>
+                        <pre><code data-trim class="rust">
+                        use rayon::prelude::*;
+                        fn sum_of_squares(input: &[i32]) -> i32 {
+                            input
+                                .par_iter() // <-- just change that!
+                                .map(|&i| i * i)
+                                .sum()
+                        }
+
+                        fn main() {
+                            println!(
+                                "sum of squares: {}",
+                                sum_of_squares(vec![1, 2, 3, 4, 5, 6].as_slice())
+                            )
+                        }
+                        </code></pre>
+                        <a href="https://github.com/rayon-rs/rayon"><font class="rust-accent"><b>Rayon</b></font></a> Data parallelism library for Rust
+                    </section>
+                    <section>
+                          <div id="demo" height="1024px"></div>
+                    </section>
+                </section>
+                <section>
+                    <h3>Rust showcase</h3>
+                    <ul>
+                        <li>
+                            <a href="https://servo.org"><font class="rust-accent"><b>Servo</b></font></a> Web rendering engine
+                        </li>
+                        <li>
+                            <a href="https://github.com/alacritty/alacritty"><font class="rust-accent"><b>Alacritty</b></font></a> Terminal emulator
+                        </li>
+                        <li>
+                            <a href="https://github.com/rustls/rustls"><font class="rust-accent"><b>Rustls</b></font></a> Cryptographic library
+                        </li>
+                        <li>
+                            <a href="https://github.com/BurntSushi/ripgrep"><font class="rust-accent"><b>Ripgrep</b></font></a> User-friendly and fast grep alternative
+                        </li>
+                        <li>
+                            <a href="https://github.com/pola-rs/polars"><font class="rust-accent"><b>Polars</b></font></a> Dataframe library (Python/Rust)
+                        </li>
+                        <li>
+                            <a href="https://github.com/astral-sh/ruff"><font class="rust-accent"><b>Ruff</b></font></a> Python linter (10-100x faster than other linters)
+                        </li>
+                        <li>
+                            <a href="https://github.com/dropbox/rust-brotli"><font class="rust-accent"><b>Brotli</b></font></a> Compression lib (<a href="https://dropbox.tech/infrastructure/-broccoli--syncing-faster-by-syncing-less">developed by dropbox</a>)
+                        </li>
+                        <li>
+                            <a href="https://github.com/tokio-rs/tokio"><font class="rust-accent"><b>Tokio</b></font></a> Async runtime (<a href="https://discord.com/blog/why-discord-is-switching-from-go-to-rust">used by Discord for backend</a>)
+                        </li>
+                        <li>
+                            <a href="https://github.com/nim65s/RobotS"><font class="rust-accent"><b>RobotS</b></font></a> Cité de l'espace demo rovers (<a href="https://www.youtube.com/watch?v=1-TDT7pREOg">video</a>)
+                        </li>
+                        <li>
+                            <a href="https://asahilinux.org/"><font class="rust-accent"><b>Asahi</b></font></a> Apple M1 GPU driver (not by Apple...)
+                        </li>
+                        <li>
+                            <a href="https://github.com/tree-sitter/tree-sitter"><font class="rust-accent"><b>Treesitter</b></font></a> Incremental parsing system for programming tool
+                        </li>
+                    </ul>
                 </section>
                 <section>
                     <h1>Questions?</h1>
+                    <img data-src="res/ferris.gif" height="100%">
+                    <small>animation by A. L. Palmer (Rust Fest Berlin 2016)</small>
                 </section>
 			</div>
 		</div>
@@ -189,6 +264,7 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
+        <script src="plugin/asciinema/asciinema-player.min.js"></script>
 		<script>
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
@@ -199,7 +275,22 @@
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
+			}).then(
+                () => {
+            const player = AsciinemaPlayer.create('res/redacted_demo_rayon.cast', document.getElementById('demo'), {
+                  speed: 1,
+                  idleTimeLimit: 1,
+                  preload: true,
+                  poster: "npt:26",
+                  markers: [
+                    [3.0,   "cargo new"],  // time in seconds + label
+                    [9.0,   "cargo add"],
+                    [13.0,   "rayon installed"],
+                    [20.0,   "cargo build"],
+                    [26.0,   "cargo run"],
+                  ]
+                });
+            });
 		</script>
 	</body>
 </html>
