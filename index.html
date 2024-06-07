@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+        <link rel="stylesheet" href="css/rust.css">
+        <link rel="stylesheet" type="text/css" href="plugin/asciinema/asciinema-player.css" />
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+                    <h3><font class="rust-accent"><b>Rust</b></font>, why the <font class="rust-hype"><b>hype?</b></font></h3>
+                    <p>
+                        <img data-src="res/rust_programming_language_logo.png" height="100">
+                    </p>
+                </section>
+
+                <section>
+                    <section>
+                       <h1>What is Rust?</h1>
+                        <ul>
+                            <li>
+                                System programming language (like C++)
+                            </li>
+                            <li>
+                                <font>Safe</font>, 
+                                <font>concurrent</font> and 
+                                <font>fast</font>
+                            </li>
+                        <li>
+                            Compiled, without runtime
+                        </li>
+                        <li>
+                            Static strong typing
+                        </li>
+                        <pre><code data-trim class="rust">
+                            fn main() {
+                                println!("Hello developer's day");
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>A brief history of Rust</h3>
+                        <img data-src="res/timeline.png" height="100%">
+                    </section>
+                </section>
+
+				<section>
+                    <h1>Why the hype?</h1>
+                    <p>Most loved programming language since 2016</p>
+                    <ul>
+                        <li><font class="rust-accent"><b>Modern</b></font> language & toolchain</li>
+                        <li><font class="rust-accent"><b>Fast</b></font> + <font class="rust-accent"><b>safe</b></font> (memory & thread safety)</li>
+                        <li>The <font class="rust-accent"><b>compiler</b></font> is your <s>friend</s> <font class="rust-accent"><b>mentor</b></font></li>
+                    </ul>
+                </section>
+                <section>
+                    <h1>Rust toolchain</h1>
+                    <ul>
+                        <li>
+                            <a href="https://rustup.rs/"><font class="rust-accent"><b>Rustup</b></font></a> Rust toolchain installer
+                        </li>
+                        <li>
+                            <a href="https://doc.rust-lang.org/cargo/"><font class="rust-accent"><b>Cargo</b></font></a> Rust package manager & more
+                        </li>
+                        <li>
+                            <a href="https://doc.rust-lang.org/rustc/index.html"><font class="rust-accent"><b>rustc</b></font></a> Rust compiler (LLVM)</li>
+                        <li>
+                            <a href="https://github.com/rust-lang/rustfmt"><font class="rust-accent"><b>rustfmt</b></font></a> Rust code formatter
+                        </li>
+                        <li>
+                            <a href="https://github.com/rust-lang/rust-clippy"><font class="rust-accent"><b>clippy</b></font></a> Rust code linter (like pylint, ruff, ...)
+                        </li>
+                        <li>
+                            <a href="https://rust-analyzer.github.io/"><font class="rust-accent"><b>rust-analyzer</b></font></a> Rust LSP implementation (IDE backend)
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Rust unique features</h3>
+                    <ul>
+                        <li>
+                            <font class="rust-accent"><b>Ownership & borrowing</b></font> (who owns/shares the data)
+                        </li>
+                        <li>
+                            <font class="rust-accent"><b>Lifetime</b></font> (how long the data lives)
+                        </li>
+                        <li>
+                            Enforced by the compiler (compile time)
+                        </li>
+                        <li>
+                            ... and many more
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <section>
+                        <h3>Preventing dangling pointer</h3>
+                        <pre><code data-trim class="rust" data-line-numbers="1-9|3|5|6|4-7|8">
+                        // neovim + rust-analyzer
+                        fn main() {
+                            let dangling;
+                            {
+                                let local = 42;
+                                dangling = &local;
+                            }
+                            println!("this is not fine: {}", *dangling);
+                        }
+                        </code></pre>
+                        <pre><code data-trim class="cpp">
+                        // cpp
+                        int main() {
+                            int *dangling;
+                            {
+                                int local = 42;
+                                dangling = &local;
+                            }
+                            std::cout << "this is not fine: "<< *dangling << std::endl;
+                            return 0;
+                        }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>What does the compiler say?</h3>
+                        <pre><code data-trim class="rust">
+                        // neovim + rust-analyzer
+                        fn main() {
+                            let dangling;
+                            {
+                                let local = 42;
+                                dangling = &local;
+                            }
+                            println!("this is not fine: {}", *dangling);
+                        }
+                        </code></pre>
+                        <p class="fragment">
+                        <img data-src="res/dangling_pointer_cargo.png" height="100%">
+                        </p>
+                    </section>
+                    <section>
+                        <h3>What does your IDE say?</h3>
+                        <p><img data-src="res/dangling_pointer_rust_analyzer_1.png" height="100%"></p>
+                    </section>
+                    <section>
+                        <h3>What does your IDE say?</h3>
+                        <p><img data-src="res/dangling_pointer_rust_analyzer_2.png" height="100%"></p>
+                    </section>
+                    <section>
+                        <h3>What does your IDE say?</h3>
+                        <p><img data-src="res/dangling_pointer_rust_analyzer_3.png" height="100%"></p>
+                    </section>
+                </section>
+                <section>
+                    <h3>Demo cargo</h3>
+                      <div id="demo"></div>
+                      <script src="plugin/asciinema/asciinema-player.min.js"></script>
+                      <script>
+                          AsciinemaPlayer.create('res/redacted_demo_rayon.cast', document.getElementById('demo'), {
+                              speed: 2,
+                              idleTimeLimot: 1,
+                              markers: [
+                                [5.0,   "cargo new"],  // time in seconds + label
+                                [12.0,   "cargo add"],
+                                [20.0,   "rayon installed"],
+                                [43.0,   "cargo build"],
+                                [38.0,   "rayon"],
+                                [48.0,   "cargo run"],
+                              ]
+                          });
+                      </script>
+                </section>
+                <section>
+                    <h1>Questions?</h1>
+                </section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+                slideNumber: 'c/t',
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
