@@ -23,35 +23,42 @@
                     <p>
                         <img data-src="res/rust_programming_language_logo.png" height="100">
                     </p>
+                    <aside class="notes">
+                        <p>Thank G. for the invitation</p>
+                        <p>Short indroduction: name, what I work on, Rust since 2019</p>
+                        <p>Talk goals: what is Rust & why people like it</p>
+                        <p>Slides on github</p>
+                    </aside>
                 </section>
 
                 <section>
                     <section>
                        <h1>What is Rust?</h1>
-                        <ul>
-                            <li>
-                                System programming language (like C++)
-                            </li>
-                            <li>
-                                <font>Safe</font>, 
-                                <font>concurrent</font> and 
-                                <font>fast</font>
-                            </li>
-                        <li>
-                            Compiled, without runtime
-                        </li>
-                        <li>
-                            Static strong typing
-                        </li>
-                        <pre><code data-trim class="rust">
-                            fn main() {
-                                println!("Hello developer's day");
-                            }
-                        </code></pre>
-                    </section>
-                    <section>
-                        <h3>A brief history of Rust</h3>
-                        <img data-src="res/timeline.png" height="100%">
+                       <ul>
+                           <li>
+                               System programming language (like C++)
+                           </li>
+                           <li>
+                               <font>Safe</font>, 
+                               <font>concurrent</font> and 
+                               <font>fast</font>
+                           </li>
+                       <li>
+                           Compiled, without runtime
+                       </li>
+                       <li>
+                           Static strong typing
+                       </li>
+                       <pre><code data-trim class="rust">
+                           fn main() {
+                               println!("Hello developer's day");
+                           }
+                       </code></pre>
+                       <aside class="notes">
+                           <p>System programming language = suitable for low level programming like OS or drivers</p>
+                           <p>Key feature of Rust = safe without compromising performance</p>
+                           <p>Compiled, without runtime, static strong typing, not OOP, functional, ...</p>
+                       </aside>
                     </section>
                 </section>
 
@@ -60,9 +67,15 @@
                     <p>Most loved programming language since 2016</p>
                     <ul>
                         <li><font class="rust-accent"><b>Modern</b></font> language & toolchain</li>
-                        <li><font class="rust-accent"><b>Fast</b></font> + <font class="rust-accent"><b>safe</b></font> (memory & thread safety)</li>
+                        <li><font class="rust-accent"><b>Fast</b></font> + <font class="rust-accent"><b>safe</b></font> (memory & concurrency safety)</li>
                         <li>The <font class="rust-accent"><b>compiler</b></font> is your <s>friend</s> <font class="rust-accent"><b>mentor</b></font></li>
+                        <li><s>Testing is doubting</s> <font class="rust-accent"><b>Compiling is testing</b></font></li>
                     </ul>
+                    <aside class="notes">
+                        <p>Most loved programming language since 2016, why?</p>
+                        <p>Development experience is great thanks to its modern features (language & toolchain)</p>
+                        <p>It brings safety without compromising performance. Huge asset for security and reliability</p>
+                    </aside>
                 </section>
                 <section>
                     <h1>Rust toolchain</h1>
@@ -87,31 +100,64 @@
                         <li>
                             <a href="https://rust-analyzer.github.io/"><font class="rust-accent"><b>rust-analyzer</b></font></a> Rust LSP implementation (IDE backend)
                         </li>
-                    </ul>
-                </section>
-                <section>
-                    <h3>Rust unique concepts</h3>
-                    <ul>
                         <li>
-                            <font class="rust-accent"><b>Ownership & borrowing</b></font> (who owns/shares the data)
-                        </li>
-                        <li>
-                            <font class="rust-accent"><b>Lifetime</b></font> (how long the data lives)
-                        </li>
-                        <li>
-                            Checked by the compiler (compile time)
-                        </li>
-                        <li>
-                            ...
+                            Rust IDE support: <a href="https://github.com/microsoft/vscode">VSCode</a>, <a href="https://github.com/neovim/neovim">Neovim</a>, <a href="https://github.com/zed-industries/zed">Zed</a>, <a href="https://github.com/lapce/lapce">Lapce</a>, <a href="https://github.com/helix-editor/helix">helix</a>, <a href="https://www.jetbrains.com/rust/">RustRover</a>, ...
                         </li>
                     </ul>
+                    <aside class="notes">
+                        <p>Modern toolchain = package manager & IDE support</p>
+                        <p>Cargo demo later in the presentation</p>
+                    </aside>
                 </section>
                 <section>
                     <section>
-                        <h4>Ownership & Borrowing</h4>
-                        <pre class="stretch"><code data-trim class="rust">
-                        struct Book;
-
+                        <h3>Rust unique concepts</h3>
+                        <ul>
+                            <li>
+                                <font class="rust-accent"><b>Ownership & borrowing</b></font> (who owns/shares the data)
+                            </li>
+                            <li>
+                                <font class="rust-accent"><b>Lifetime</b></font> (how long the data lives)
+                            </li>
+                            <li>
+                                Checked by the compiler (<font class="rust-accent"><b>borrow checker</b></font>)
+                            </li>
+                        </ul>
+                        <aside class="notes">
+                            <p>How Rust can manage to be safe and remain fast</p>
+                            <p>Ownership & borrowing, who owns/shares the data, useful for preventing concurrent access.</p>
+                            <p>Lifetime, how long the data lives, useful for preventing dangling pointers.</p>
+                            <p>All these concepts are compile time => no runtime cost </p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>Ownership rules</h3>
+                        <ul>
+                            <li>Each value in Rust has a variable that's called its owner</li>
+                            <li>There can only be one owner at a time.</li>
+                            <li>When the owner goes out of scope, the value will be dropped.</li>
+                        </ul>
+                        <aside class="notes">
+                            <p>These rules are checked by the borrow checker and enforced by the compiler</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>Borrowing rules</h3>
+                        <ul>
+                            <li>At any given time, you may have:</li>
+                            <ul>
+                                <li>either exactly one mutable reference (<font class="rust-mono">&mutT</font>)</li>
+                                <li>or one or more immutable references (<font class="rust-mono">&T</font>)</li>
+                            </ul>
+                            <li><b>References are guaranteed</b> (by the compiler) <b>to be valid</b></li>
+                        </ul>
+                        <aside class="notes">
+                            <p>These rules are checked by the borrow checker and enforced by the compiler</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h4>Ownership & Borrowing Syntax</h4>
+                        <pre><code data-trim class="rust">
                         fn read_book(book: &Book) {
                             // gain non mutable access to `book`
                             // and give it back (borrow it)
@@ -126,6 +172,9 @@
                             // become the new owner of `book` (own it)
                         } // here book is destroyed
                         </code></pre>
+                        <aside class="notes">
+                            <p>Explicit intent via function signatures</p>
+                        </aside>
                     </section>
                     <section>
                         <h4>Lifetimes, behind the scene</h4>
@@ -139,6 +188,10 @@
                             println!("{}", *dangling);   //         |
                         }                                // --------+
                         </code></pre>
+                        <aside class="notes">
+                            <p>A glimpse of what lifetimes are behind the scene</p>
+                            <p>Let's see how it prevents dangling pointers</p>
+                        </aside>
                     </section>
                 </section>
                 <section>
@@ -186,7 +239,7 @@
                     <section>
                         <h3>What does your IDE say?</h3>
                         <div class="r-stack">
-                        <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_1.png" width="100%"></p>
+                        <p><img data-src="res/dangling_pointer_rust_analyzer_1.png" width="100%"></p>
                         <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_2.png" width="100%"></p>
                         <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_3.png" width="100%"></p>
                         </div>
@@ -194,7 +247,13 @@
                 </section>
                 <section>
                     <section>
-                        <h3>Rayon</h3>
+                        <h3>Rayon on crates.io</h3>
+                        <div>
+                            <img data-src="res/rayon_crate.png" width="80%">
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Rayon code</h3>
                         <pre><code data-trim class="rust">
                         use rayon::prelude::*;
                         fn sum_of_squares(input: &[i32]) -> i32 {
@@ -211,13 +270,31 @@
                             )
                         }
                         </code></pre>
-                        <a href="https://github.com/rayon-rs/rayon"><font class="rust-accent"><b>Rayon</b></font></a> Data parallelism library for Rust
                     </section>
                     <section>
                           <div id="demo" height="1024px"></div>
                     </section>
                 </section>
                 <section>
+                    <h1>Questions?</h1>
+                    <img data-src="res/ferris.gif" height="100%">
+                    <small>
+                        <p><a href="https://www.rustacean.net/">Ferris: Rust unofficial mascot</a></p>
+                        <p>animation by A. L. Palmer (Rust Fest Berlin 2016)</p>
+                    </small>
+                </section>
+                <section data-visibility="uncounted">
+                    <h3>A brief history of Rust</h3>
+                    <img data-src="res/timeline.png" height="100%">
+                    <aside class="notes">
+                        <p>Initially R&D project at Mozilla</p>
+                        <p>First stable release in 2016</p>
+                        <p>I start learning it in 2019</p>
+                        <p>Rust foundation in 2021, Google, Huawei, Amazon & Microsoft</p>
+                        <p>Since 2022, Rust is progressively integrated in the Linux Kernel (drivers)</p>
+                    </aside>
+                </section>
+                <section data-visibility="uncounted">
                     <h3>Rust showcase</h3>
                     <ul>
                         <li>
@@ -255,14 +332,6 @@
                         </li>
                     </ul>
                 </section>
-                <section>
-                    <h1>Questions?</h1>
-                    <img data-src="res/ferris.gif" height="100%">
-                    <small>
-                        <p><a href="https://www.rustacean.net/">Ferris: Rust unofficial mascot</a></p>
-                        <p>animation by A. L. Palmer (Rust Fest Berlin 2016)</p>
-                    </small>
-                </section>
 			</div>
 		</div>
 
@@ -278,6 +347,7 @@
 			Reveal.initialize({
 				hash: true,
                 slideNumber: 'c/t',
+                totalTime: 15 * 60,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
