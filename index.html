@@ -248,18 +248,29 @@
                 </section>
                 <section>
                     <section>
+                        <h4>Iterators & Parallel Data Processing</h4>
+                        <pre><code data-trim class="rust" data-line-numbers="1-6|3">
+                        fn sum_of_squares(input: &[i32]) -> i32 {
+                            input
+                                .iter() // <-- just change that!
+                                .map(|&i| i * i)
+                                .sum()
+                        }
+                        </code></pre>
+                    </section>
+                    <section>
                         <h3>Rayon on crates.io</h3>
                         <div>
                             <img data-src="res/rayon_crate.png" width="80%">
                         </div>
                     </section>
                     <section>
-                        <h3>Rayon code</h3>
+                        <h3>Rayon Parallel Iterator</h3>
                         <pre><code data-trim class="rust">
                         use rayon::prelude::*;
                         fn sum_of_squares(input: &[i32]) -> i32 {
                             input
-                                .par_iter() // <-- just change that!
+                                .par_iter() // <-- parallel iterator
                                 .map(|&i| i * i)
                                 .sum()
                         }
