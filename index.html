@@ -69,8 +69,6 @@
                     <ul>
                         <li><font class="rust-accent"><b>Modern</b></font> language & toolchain</li>
                         <li><font class="rust-accent"><b>Fast</b></font> + <font class="rust-accent"><b>safe</b></font> (memory & concurrency safety)</li>
-                        <li>The <font class="rust-accent"><b>compiler</b></font> is your <s>friend</s> <font class="rust-accent"><b>mentor</b></font></li>
-                        <li><s>Testing is doubting</s> <font class="rust-accent"><b>Compiling is testing</b></font></li>
                     </ul>
                     <aside class="notes">
                         <p>Most loved programming language since 2016, why?</p>
@@ -198,7 +196,7 @@
                 <section>
                     <section>
                         <h4>Example: Preventing dangling pointer</h4>
-                        <pre><code data-trim class="rust" data-line-numbers="1-8|2|4|5|3-6|8">
+                        <pre><code data-trim class="rust" data-line-numbers="1-8|2|4|5|3-6|1-8">
                         fn main() {
                             let dangling;
                             {
@@ -405,7 +403,7 @@
 			Reveal.initialize({
 				hash: true,
                 slideNumber: 'c/t',
-                totalTime: 15 * 60,
+                totalTime: 18 * 60,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
