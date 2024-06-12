@@ -220,6 +220,10 @@
                             return 0;
                         }
                         </code></pre>
+                        <aside class="notes">
+                            <p>Short snippet attempting to create a dangling pointer</p>
+                            <p>It tells us where `local` is dropped/freed</p>
+                        </aside>
                     </section>
                     <section>
                         <h3>What does the compiler say?</h3>
@@ -234,8 +238,12 @@
                         }
                         </code></pre>
                         <p class="fragment">
-                        <img data-src="res/dangling_pointer_cargo.png" height="100%">
+                            <img data-src="res/dangling_pointer_cargo.png" height="100%">
                         </p>
+                        <aside class="notes">
+                            <p>The compiler tells us `local` does not live long enough</p>
+                            <p>It tells us where `local` is dropped/freed</p>
+                        </aside>
                     </section>
                     <section>
                         <h3>What does your IDE say?</h3>
@@ -244,6 +252,11 @@
                         <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_2.png" width="100%"></p>
                         <p class="fragment"><img data-src="res/dangling_pointer_rust_analyzer_3.png" width="100%"></p>
                         </div>
+                        <aside class="notes">
+                            <p>Rust analyzer tells our code editor what is wrong</p>
+                            <p>It tells us that `local` does not live long enough</p>
+                            <p>And it tells us why</p>
+                        </aside>
                     </section>
                 </section>
                 <section>
@@ -259,19 +272,28 @@
                         </code></pre>
 
                         <pre><code data-trim class="python">
+                        # Python
                         def sum_of_squares(input: List[int]) -> int:
                             return sum(map(lambda i: i * i, input))
                         </code></pre>
+                        <aside class="notes">
+                            <p>Sum of squares</p>
+                            <p>Let's see how we can make this code run in parallel</p>
+                        </aside>
                     </section>
                     <section>
                         <h3>Rayon on crates.io</h3>
                         <div>
-                            <img data-src="res/rayon_crate.png" width="80%">
+                            <img data-src="res/rayon_crate.png" width="50%">
                         </div>
+                        <aside class="notes">
+                            <p>Crates.io public Rust package repository</p>
+                            <p>Rayon is a Rust library, Rust libs are called "crates"</p>
+                        </aside>
                     </section>
                     <section>
                         <h3>Rayon Parallel Iterator</h3>
-                        <pre><code data-trim class="rust">
+                        <pre><code data-trim class="rust" data-line-numbers="1-14|4">
                         use rayon::prelude::*;
                         fn sum_of_squares(input: &[i32]) -> i32 {
                             input
@@ -287,9 +309,17 @@
                             )
                         }
                         </code></pre>
+                        <aside class="notes">
+                            <p>Same code, except we use a parallel iterator provided by rayon</p>
+                            <p>Let's see how we use cargo to set everything up</p>
+                        </aside>
                     </section>
                     <section>
-                          <div id="demo" height="1024px"></div>
+                        <div id="demo" height="1024px"></div>
+                        <aside class="notes">
+                            <p>Terminal recording of installing rayon using cargo</p>
+                            <p>and building a simple example</p>
+                        </aside>
                     </section>
                 </section>
                 <section>
@@ -299,6 +329,11 @@
                         <p><a href="https://www.rustacean.net/">Ferris: Rust unofficial mascot</a></p>
                         <p>animation by A. L. Palmer (Rust Fest Berlin 2016)</p>
                     </small>
+                    <aside class="notes">
+                        <p>Ferris is the unofficial Rust mascot</p>
+                        <p>I'll be happy to answer your questions on Rust</p>
+                        <p>Don't hesitate to reach out after this talk</p>
+                    </aside>
                 </section>
                 <section data-visibility="uncounted">
                     <h3>A brief history of Rust</h3>
@@ -348,6 +383,12 @@
                             <a href="https://github.com/tree-sitter/tree-sitter"><font class="rust-accent"><b>Treesitter</b></font></a> Incremental parsing system for programming tool
                         </li>
                     </ul>
+                <aside class="notes">
+                    <p>Many cool projects written in Rust</p>
+                    <p>Applications, Libraries, Drivers, Embedded</p>
+                    <p>Emphasis on speed and security</p>
+                    <p>Did you know Cite de l'espace rovers are coded in Rust?</p>
+                </aside>
                 </section>
 			</div>
 		</div>
